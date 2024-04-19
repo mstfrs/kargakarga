@@ -7,7 +7,8 @@ import LeftBar from "../TaskDetails/LeftBar";
 import { BreadCrumb } from 'primereact/breadcrumb';
 import Link from "next/link";
 
-const DetailModal = ({ visible, setVisible }) => {
+const DetailModal = ({ visible, setVisible,task }) => {
+  console.log(task)
   const [isOpen, setIsOpen] = useState(true)
   const items = [{ label: '25Proje' }, { label: 'Projects' }, { label: 'Frontend Case',template: () => <Link href="/dashboard" className="text-[#2083D7] text-sm font-semibold">InputText</Link> }];
     const home = { icon: 'pi pi-home', url: '' }
@@ -44,7 +45,7 @@ const DetailModal = ({ visible, setVisible }) => {
         onHide={() => setVisible(false)}
       >
         <div className="flex w-full">
-          <Content />
+          <Content task={task} />
 
           <div className="">
             <LeftBar isOpen={isOpen} setIsOpen={setIsOpen} />
