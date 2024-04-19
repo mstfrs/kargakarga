@@ -1,6 +1,5 @@
 'use client'
 import Boardsview from '@/components/Boardsview/Boardsview'
-import DetailModal from '@/components/DetailModal/DetailModal'
 import Header from '@/components/Header/Header'
 import Menu from '@/components/Menu/Menu'
 import Sidebar from '@/components/Sidebar/Sidebar'
@@ -8,13 +7,6 @@ import React, {  useState } from 'react'
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const [visible, setVisible] = useState(false);
-  
-    const [loading, setLoading] = useState(false)
-
-
-
-   
     
   return (
     <div className='overflow-hidden h-[100vh]'> <Header/>

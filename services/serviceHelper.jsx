@@ -59,16 +59,4 @@ export const addTask = async (token,values) => {
   }
 };
 
-// Başka API çağrıları eklemek isterseniz diye bir örnek fonksiyon daha
-export const fetchUserData = async (token) => {
-  try {
-    const response = await api.get("/user", {
-      headers: {
-        Authorization: `Bearer ${token}`, // Yetkilendirme token'ını gönder
-      },
-    });
-    return response.data; // Kullanıcı verilerini döndür
-  } catch (error) {
-    throw error.response.data; // Hata oluşursa hata mesajını döndür
-  }
-};
+

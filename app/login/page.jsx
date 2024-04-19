@@ -7,35 +7,18 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter ();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-
-  // const handleLogin = async () => {
-  //   console.log("deneme");
-  //   try {
-  //     const userData = await login(email, password);
-  //     router.push("/dashboard");
-  //   } catch (error) {
-  //     setError(error); // Hata durumunda hata mesajını göster
-  //   }
-  //   setEmail("");
-  //   setPassword("");
-  // };
-
-  const formik=useFormik({
+   const formik=useFormik({
     initialValues:{
       email:'',
       password:'',
     },
     onSubmit:async(values)=>{
-      console.log(values)
+
       try {
         const userData = await login(values.email,values.password);
-        router.push("/dashboard");
-        console.log(userData)
+        router.push("/dashboard");       
       } catch (error) {
-        setError(error); // Hata durumunda hata mesajını göster
+        setError(error); 
       }
     }
   })

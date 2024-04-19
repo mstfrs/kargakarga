@@ -33,7 +33,7 @@ const Boardsview = () => {
       console.log(error); // Hata durumunda hata mesajını göster
     }
   };
-console.log(boardData)
+
   useEffect(() => {
     fetchBoardsAndTasks();
   }, []);
@@ -52,7 +52,7 @@ console.log(boardData)
       <div className="flex gap-[10px] overflow-x-auto">
         <DragDropContext onDragEnd={(result) => console.log(result)}>
           {Object.entries(boardData?.length>0&&boardData).map(([id, column]) => {
-            console.log(column);
+       
             return (
               <Droppable key={id} droppableId="id">
                 {(provided, snapshot) => {
@@ -60,7 +60,7 @@ console.log(boardData)
                     <div style={{height:'auto'}} ref={provided.innerRef} {...provided.droppableProps}>
                     <Board item={column}  >
                       {column.tasks.map((item, index) => {
-                        console.log(item.id)
+                 
                         return (
                           <Draggable
                             index={index}
