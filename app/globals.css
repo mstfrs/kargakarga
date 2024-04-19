@@ -1,8 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "primeicons/primeicons.css";
 
-:root {
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,4 +34,18 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+} */
+
+#sidebar .p-panelmenu-header-link{
+  display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    font-size: 14px;
+}
+#sidebar .p-panelmenu-root-list{
+  display: flex;
+  flex-direction: column;
+    gap: 20px;
+    font-size: 12px;
+    margin-left: 30px;
 }
