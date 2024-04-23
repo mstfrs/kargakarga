@@ -1,12 +1,13 @@
 import axios from "axios";
 
-// Axios instance oluştur
+export const baseURL = "https://api.management.parse25proje.link/api"
+axios.defaults.baseURL="https://api.management.parse25proje.link/api"
 const api = axios.create({
-  baseURL: "https://api.management.parse25proje.link/api/", // API adresini buraya girin
-  timeout: 10000, // İsteğin zaman aşımı süresi (milisaniye cinsinden)
+  baseURL , 
+  timeout: 10000, 
 });
 
-// Login işlemi için bir fonksiyon oluştur
+
 export const login = async (email, password) => {
   try {
     const response = await api.post("/auth/login", {
@@ -23,7 +24,7 @@ export const login = async (email, password) => {
 };
 export const getAllBoardandTasks = async (token) => {
   try {
-    const response = await api.get("/boards", {
+    const response = await api.get("/boards", {next: { tags: ['boards'] },
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -58,5 +59,19 @@ export const addTask = async (token,values) => {
     throw error.response.data;
   }
 };
+export const deleteTask = async (token,id) => {
+  try {
+    const response = await api.delete(`/tasks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 
+
+  

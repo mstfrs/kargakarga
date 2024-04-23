@@ -90,7 +90,7 @@ const Menu = ({isOpen,setIsOpen}) => {
         
     ];
   return (
-    <div id='sidebar' className={`${isOpen?'block':'hidden'} flex flex-col justify-between absolute top-0 md:left-[72px] w-full md:w-[282px] h-screen bg-white text-black p-4 pt-9`}>
+    <div id='sidebar' className={`${isOpen?'block':'hidden'} flex flex-col justify-between h-full absolute top-0 md:left-[72px] w-full md:w-[282px]  bg-white text-black p-4 pt-9`}>
         <div>
         <div className='md:hidden w-full flex items-end justify-end mb-4'>
         <FaTimes size={25} onClick={()=>setIsOpen(!isOpen)} className='text-right'/>

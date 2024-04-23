@@ -14,7 +14,9 @@ import {
   fetchFlags,
   getAllBoardandTasks,
 } from "@/services/serviceHelper";
-import useSWR, { mutate } from "swr";
+import useSWR, { mutate,trigger } from "swr";
+// import useSWR from 'swr/immutable';
+import { revalidateTag } from "next/cache";
 
 
 const TaskCreateModal = ({ createTaskModalOpen, setCreateTaskModalOpen }) => {
@@ -29,36 +31,14 @@ const TaskCreateModal = ({ createTaskModalOpen, setCreateTaskModalOpen }) => {
     </div>
   );
 
-  const { data: boardData, error: boardError } = useSWR('/api/boards', async () => {
-    const response = await axios.get('/api/boards');
-    return response.data;
-  });
-  const { data: flags, error: flagsError } = useSWR('/api/flags', async () => {
-    const response = await axios.get('/api/flags');
-    return response.data;
-  });
+ 
+
   const toggleVisibility = () => {
-    setCreateTaskModalOpen(!createTaskModalOpen); // state'i tersine çevir
+    setCreateTaskModalOpen(!createTaskModalOpen); 
   };
-  const footerContent = <div></div>;
+ 
 
-  // const fetchBoarsAndTasks = async () => {
-  //   const profile = JSON.parse(localStorage.getItem("Auth"));
-  //   console.log(profile.data.token);
-  //   try {
-  //     const data = await getAllBoardandTasks(profile.data.token);
-  //     const flagsData = await fetchFlags(profile.data.token);
-  //     setBoardData(data.data);
-  //     setFlags(flagsData.data);
-  //     console.log(flagsData)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchBoarsAndTasks();
-  // }, []);
+ 
 
   const formik = useFormik({
     initialValues: {
@@ -73,9 +53,9 @@ const TaskCreateModal = ({ createTaskModalOpen, setCreateTaskModalOpen }) => {
       const profile = JSON.parse(localStorage.getItem("Auth"));
       const token = profile.data.token;
       try {
-        const userData = await addTask(token, values); 
-        mutate('/api/boards');
-        mutate('/api/flags');    
+        const userData = await addTask(token, values);      
+        mutate('/boards');
+       
       } catch (error) {
         setError(error);
       }
@@ -87,8 +67,7 @@ const TaskCreateModal = ({ createTaskModalOpen, setCreateTaskModalOpen }) => {
         closable
         visible={createTaskModalOpen}
         modal
-        header={headerElement}
-        footer={footerContent}
+        header={headerElement}      
         style={{ width: "30%", maxWidth: "400px", height: "full" }}
         onHide={() => setCreateTaskModalOpen(false)}
       >

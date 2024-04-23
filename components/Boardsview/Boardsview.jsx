@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import NavTabs from "./NavTabs";
 import Board from "./Board";
-import { fetchFlags, getAllBoardandTasks } from "@/services/serviceHelper";
+import { fetchFlags, getAllBoardandTasks, getFetcher } from "@/services/serviceHelper";
 import { FaPlus } from "react-icons/fa";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import useSWR from "swr";
 
 const Boardsview = () => {
   const [boardData, setBoardData] = useState();
@@ -20,6 +21,7 @@ const Boardsview = () => {
 
   // const ref = useRef();
 
+  const { data,error } = useSWR('/boards');
   const fetchBoardsAndTasks = async () => {
     const profile = JSON.parse(localStorage.getItem("Auth"));
 
@@ -40,7 +42,7 @@ const Boardsview = () => {
 
   const handleDragEnd = ({ destination, source }) => {};
   return (
-    <div className="flex flex-col gap-6 ">
+    <div className="flex flex-col gap-6  ">
       <div className="flex justify-between ">
         <h2 className="text-[#145389] text-[22px] font-semibold">
           Frontend Case
@@ -49,47 +51,10 @@ const Boardsview = () => {
       </div>
       <NavTabs />
 
-      <div className="flex gap-[10px] overflow-x-auto">
-        <DragDropContext onDragEnd={(result) => console.log(result)}>
-          {Object.entries(boardData?.length>0&&boardData).map(([id, column]) => {
-       
-            return (
-              <Droppable key={id} droppableId="id">
-                {(provided, snapshot) => {
-                  return (
-                    <div style={{height:'auto'}} ref={provided.innerRef} {...provided.droppableProps}>
-                    <Board item={column}  >
-                      {column.tasks.map((item, index) => {
-                 
-                        return (
-                          <Draggable
-                            index={index}
-                            key={item.id}
-                            draggableId={item.id}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                ></div>
-                              );
-                            }}
-                          </Draggable>
-                        );
-                      })}
-                      {/* {boardData?.map((item, index) => (
+      <div className="flex gap-[10px]  ">
+      {data?.data?.map((item, index) => (
                       <Board item={item} key={index} />
-                    ))} */}
-                    </Board>
-                    </div>
-                  );
-                }}
-              </Droppable>
-            )
-          })}
-        </DragDropContext>
+                    ))}
         <div className="justify-center border border-[#EAECF0] w-[319px] flex flex-col  items-center gap-[6px] bg-white rounded-xl">
           <div className=" flex flex-col w-[309px] justify-center items-center text-[#98A2B3] gap-4 text-2xl cursor-pointer">
             <FaPlus size={40} />
