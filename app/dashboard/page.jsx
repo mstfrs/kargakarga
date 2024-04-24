@@ -13,14 +13,14 @@ const Dashboard = () => {
   const profile = JSON.parse(localStorage.getItem("Auth"));
   return (
     <SWRConfig value={{fetcher:(url)=>axios(url,{ headers: { Authorization: "Bearer " + profile.data.token } }).then(r=>r.data)}}>
-    <div className="overflow-hidden h-screen">
+    <div className="overflow-hidden ">
       <Header />
       <div className="flex flex-col md:flex-row justify-start">
-        <div className={`${isOpen ? "min-w-[354px]" : ""} h-[90vh] !relative`}>
+        <div className={`${isOpen ? "min-w-[354px]" : ""} md:h-[90vh] !relative`}>
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
           <Menu isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-        <div className="w-[100vw] h-[88vh] overflow-auto py-6 px-8 bg-[#F3F6FD] ">
+        <div className="w-[100vw] md:h-[88vh] overflow-auto py-6 px-8 bg-[#F3F6FD] ">
           <Boardsview />
         </div>
       </div>

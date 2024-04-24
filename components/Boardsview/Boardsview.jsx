@@ -6,11 +6,13 @@ import {
   fetchFlags,
   getAllBoardandTasks,
   getFetcher,
+  updateTask,
 } from "@/services/serviceHelper";
 import { FaPlus } from "react-icons/fa";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import TaskCard from "../Cards/TaskCard";
+import axios from "axios";
 
 const Boardsview = () => {
   const [boardData, setBoardData] = useState();
@@ -45,7 +47,24 @@ const Boardsview = () => {
     fetchBoardsAndTasks();
   }, []);
 
-  const handleDragEnd = ({ destination, source }) => {};
+  const handleDragdrop =async (results) => {
+    const {source,destination,draggableId,type}=results;
+ console.log(results)
+    
+    if (destination && (source.index !== destination.index || source.droppableId !== destination.droppableId)) {
+      const taskId = Number(draggableId); 
+      const newBoardId = Number(destination.droppableId); 
+      const profile = JSON.parse(localStorage.getItem("Auth"));
+      const token = profile.data.token;
+      try {
+       
+        const userData = await updateTask(token,taskId,{ boardId:newBoardId});      
+        mutate('/boards');
+      } catch (error) {
+        console.error('Task güncelleme hatası:', error);
+      }
+    }
+  };
   return (
     <div className="flex flex-col gap-6  ">
       <div className="flex justify-between ">
@@ -57,9 +76,9 @@ const Boardsview = () => {
       <NavTabs />
 
       <div className="flex gap-[10px]  ">
-        <DragDropContext onDragEnd={() => console.log("Drag event occured")}>
+        <DragDropContext onDragEnd={handleDragdrop}>
           {data?.data?.map((board) => (
-            <Droppable key={board.id} droppableId="ROOT" type="group">
+            <Droppable key={board.id} droppableId={String(board.id)} type="group">
               {(provided) => (
                 <div {...provided.droppableProps}
                 ref={provided.innerRef} className="flex gap-5">
