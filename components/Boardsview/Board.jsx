@@ -4,6 +4,7 @@ import { CiCircleMore } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import TaskCard from "../Cards/TaskCard";
 import TaskCreateModal from "../TaskCreateModal/TaskCreateModal";
+import { Draggable } from "react-beautiful-dnd";
 
 const Board = ({ item }) => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
@@ -27,7 +28,21 @@ const Board = ({ item }) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center h-full ">
+      {item.tasks.map((task, index) => (
+        <Draggable key={task.id} draggableId={String(task.code)} index={index}>
+          {(provided) => (
+            <div
+              {...provided.dragHandleProps}
+              {...provided.draggableProps}
+              ref={provided.innerRef}
+            >
+              <TaskCard task={task} />
+            </div>
+          )}
+        </Draggable>
+      ))}
+    
+      {/* <div className="flex flex-col items-center h-full ">
         {item?.tasks?.length > 0 ? (
           item?.tasks?.map((task, index) => (
             <TaskCard task={task} key={index} />
@@ -43,7 +58,7 @@ const Board = ({ item }) => {
             </h4>
           </div>
         )}
-      </div>
+      </div> */}
 
       <TaskCreateModal
         createTaskModalOpen={createTaskModalOpen}

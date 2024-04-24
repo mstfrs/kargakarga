@@ -2,10 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import NavTabs from "./NavTabs";
 import Board from "./Board";
-import { fetchFlags, getAllBoardandTasks, getFetcher } from "@/services/serviceHelper";
+import {
+  fetchFlags,
+  getAllBoardandTasks,
+  getFetcher,
+} from "@/services/serviceHelper";
 import { FaPlus } from "react-icons/fa";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import useSWR from "swr";
+import TaskCard from "../Cards/TaskCard";
 
 const Boardsview = () => {
   const [boardData, setBoardData] = useState();
@@ -21,7 +26,7 @@ const Boardsview = () => {
 
   // const ref = useRef();
 
-  const { data,error } = useSWR('/boards');
+  const { data, error } = useSWR("/boards");
   const fetchBoardsAndTasks = async () => {
     const profile = JSON.parse(localStorage.getItem("Auth"));
 
@@ -52,9 +57,28 @@ const Boardsview = () => {
       <NavTabs />
 
       <div className="flex gap-[10px]  ">
-      {data?.data?.map((item, index) => (
+        <DragDropContext onDragEnd={() => console.log("Drag event occured")}>
+          {data?.data?.map((board) => (
+            <Droppable key={board.id} droppableId="ROOT" type="group">
+              {(provided) => (
+                <div {...provided.droppableProps}
+                ref={provided.innerRef} className="flex gap-5">
+                  <Board
+                    item={board}               
+                    
+                  />
+                
+                   
+                {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          ))}
+        </DragDropContext>
+
+        {/* {data?.data?.map((item, index) => (
                       <Board item={item} key={index} />
-                    ))}
+                    ))} */}
         <div className="justify-center border border-[#EAECF0] w-[319px] flex flex-col  items-center gap-[6px] bg-white rounded-xl">
           <div className=" flex flex-col w-[309px] justify-center items-center text-[#98A2B3] gap-4 text-2xl cursor-pointer">
             <FaPlus size={40} />
